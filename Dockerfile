@@ -74,7 +74,7 @@ RUN cd /home/jail/lib && \
 RUN groupadd jail && \
 	adduser --disabled-password --gecos "" --home /home/jail/home/username username && \
 	echo 'username:acoman' | chpasswd && \
-	sed -i 's/\/home\/jail\/home\/username:\/bin\/bash/\/home\/home\/username:\/bin\/bash/g' /etc/passwd && \
+	sed -i 's/\/home\/jail\/home\/username:\/bin\/bash/\/home\/username:..\/..\/bin\/bash/g' /etc/passwd && \
 	addgroup username jail
 
 # Update ssh
