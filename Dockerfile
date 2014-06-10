@@ -31,8 +31,9 @@ WORKDIR /
 #CHROOT JAIL:  http://www.58bits.com/blog/2014/01/09/ssh-and-sftp-chroot-jail
 
 #Create our directories
-RUN mkdir -p /home/jail/{dev,etc,lib,lib64,usr,bin,home} && \
-	mkdir -p /home/jail/usr/bin
+RUN bash -c "\
+	mkdir -p /home/jail/{dev,etc,lib,lib64,usr,bin,home} && \
+	mkdir -p /home/jail/usr/bin"
  
 #Set owner
 RUN chown root:root /home/jail
