@@ -49,10 +49,10 @@ echo ""
 
 
 #Provide acccess to null and random within chroot.
-mknod /home/jail/dev/null c 1 3
-mknod /home/jail/dev/random c 1 8
-chmod 666 /home/jail/dev/null
-chmod 666 /home/jail/dev/random
+#mknod /home/jail/dev/null c 1 3
+#mknod /home/jail/dev/random c 1 8
+#chmod 666 /home/jail/dev/null
+#chmod 666 /home/jail/dev/random
 
 # Startup ssh server to allow incomming connections.
 /usr/sbin/sshd -D &
