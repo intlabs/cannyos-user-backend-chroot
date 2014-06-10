@@ -30,23 +30,23 @@ WORKDIR /
 
 #CHROOT JAIL:  http://www.58bits.com/blog/2014/01/09/ssh-and-sftp-chroot-jail
 
-#Create our directories
+# Create our directories
 RUN bash -c "\
 	mkdir -p /home/jail/{dev,etc,lib,lib64,usr,bin,home} && \
 	mkdir -p /home/jail/usr/bin"
  
-#Set owner
+# Set owner
 RUN chown root:root /home/jail
  
-#Needed for the OpenSSH ChrootDirectory directive to work
+# Needed for the OpenSSH ChrootDirectory directive to work
 RUN chmod go-w /home/jail
 
 # Get script to pull in binary dependancies for required exectuables within chroot
 ADD /CannyOS/Backend/chroot.sh /CannyOS/Backend/chroot.sh
 RUN chmod +x /CannyOS/Backend/chroot.sh
 
-#Copy the binaries we want our chroot user to have
-#First the binaries
+# Copy the binaries we want our chroot user to have
+# First the binaries
 RUN cd /home/jail/bin && \
 	cp /bin/bash . && \
 	cp /bin/ls . && \
@@ -55,7 +55,7 @@ RUN cd /home/jail/bin && \
 	cp /bin/mkdir . && \
  	cp /usr/bin/ssh .
 
-#Now our l2chroot script to bring over dependencies
+# Now our l2chroot script to bring over dependencies
 RUN /CannyOS/Backend/chroot.sh /bin/bash && \
 	/CannyOS/Backend/chroot.sh /bin/ls && \
 	/CannyOS/Backend/chroot.sh /bin/cp && \
@@ -68,7 +68,7 @@ RUN cd /home/jail/usr/bin && \
 	cp /usr/bin/clear . && \
 	/CannyOS/Backend/chroot.sh /usr/bin/clear
 
-#Add terminal info files - so that clear, and other terminal aware commands will work.
+# Add terminal info files - so that clear, and other terminal aware commands will work.
 RUN cd /home/jail/lib && \
 	cp -r /lib/terminfo .
 

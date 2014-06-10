@@ -53,7 +53,7 @@ sudo mkdir -p "/CannyOS/build/cannyos-user-backend-chroot"
 sudo rm -r -f "/CannyOS/build/cannyos-user-backend-chroot/*"
 
 # Remove any old containers
-sudo docker rm cannyos-user-backend-chroot
+# sudo docker rm cannyos-user-backend-chroot
 
 echo ""
 echo "*****************************************************"
