@@ -11,6 +11,7 @@
 # http://www.cyberciti.biz/tips/howto-setup-lighttpd-php-mysql-chrooted-jail.html
 # -------------------------------------------------------------------------------
 # Set CHROOT directory name
+
 BASE="/home/jail"
 
 if [ $# -eq 0 ]; then
