@@ -28,19 +28,11 @@ ENV DEBIAN_FRONTEND noninteractive
 # Set the working directory
 WORKDIR /
 
-
-
-
-
-
-
-
-
 #CHROOT JAIL:  http://www.58bits.com/blog/2014/01/09/ssh-and-sftp-chroot-jail
 
 #Create our directories
-RUN mkdir -p /home/jail/{dev,etc,lib,lib64,usr,bin,home}
-RUN mkdir -p /home/jail/usr/bin
+RUN mkdir -p /home/jail/{dev,etc,lib,lib64,usr,bin,home} && \
+	mkdir -p /home/jail/usr/bin
  
 #Set owner
 RUN chown root:root /home/jail
@@ -49,63 +41,53 @@ RUN chown root:root /home/jail
 RUN chmod go-w /home/jail
 
 # Get script to pull in binary dependancies for required exectuables within chroot
-RUN wget --output-document=l2chroot.sh http://www.cyberciti.biz/files/lighttpd/l2chroot.txt
-RUN chmod +x l2chroot.sh
+RUN wget --output-document=l2chroot.sh http://www.cyberciti.biz/files/lighttpd/l2chroot.txt && \
+	chmod +x l2chroot.sh
 
 #Copy the binaries we want our chroot user to have
 #First the binaries
 RUN cd /home/jail/bin && \
-cp /bin/bash . && \
-cp /bin/ls . && \
-cp /bin/cp . && \
-cp /bin/mv . && \
-cp /bin/mkdir .
+	cp /bin/bash . && \
+	cp /bin/ls . && \
+	cp /bin/cp . && \
+	cp /bin/mv . && \
+	cp /bin/mkdir .
  
 #Now our l2chroot script to bring over dependencies
 RUN /data/l2chroot.sh /bin/bash && \
-/data/l2chroot.sh /bin/ls && \
-/data/l2chroot.sh /bin/cp && \
-/data/l2chroot.sh /bin/mv && \
-/data/l2chroot.sh /bin/mkdir
+	/data/l2chroot.sh /bin/ls && \
+	/data/l2chroot.sh /bin/cp && \
+	/data/l2chroot.sh /bin/mv && \
+	/data/l2chroot.sh /bin/mkdir
 
 # clear command requires terminal definitions.
 RUN cd /home/jail/usr/bin && \
-cp /usr/bin/clear . && \
-/data/l2chroot.sh /usr/bin/clear
+	cp /usr/bin/clear . && \
+	/data/l2chroot.sh /usr/bin/clear
 
 #Add terminal info files - so that clear, and other terminal aware commands will work.
 RUN cd /home/jail/lib && \
-cp -r /lib/terminfo .
-
+	cp -r /lib/terminfo .
 
 # Create user and jail group
 RUN groupadd jail && \
-adduser --disabled-password --gecos "" --home /home/jail/home/username username && \
-echo 'username:acoman' | chpasswd && \
-sed -i 's/\/home\/jail\/home\/username:\/bin\/bash/\/home\/home\/username:\/bin\/bash/g' /etc/passwd && \
-addgroup username jail
+	adduser --disabled-password --gecos "" --home /home/jail/home/username username && \
+	echo 'username:acoman' | chpasswd && \
+	sed -i 's/\/home\/jail\/home\/username:\/bin\/bash/\/home\/home\/username:\/bin\/bash/g' /etc/passwd && \
+	addgroup username jail
 
-#Update ssh
+# Update ssh
 RUN bash -c "Match Group jail" >> /etc/ssh/sshd_config" <<EOF && \
-bash -c "    ChrootDirectory /home/jail" >> /etc/ssh/sshd_config" <<EOF && \
-bash -c "    X11Forwarding no" >> /etc/ssh/sshd_config" <<EOF && \
-bash -c "    AllowTcpForwarding no" >> /etc/ssh/sshd_config" <<EOF
+	bash -c "    ChrootDirectory /home/jail" >> /etc/ssh/sshd_config" <<EOF && \
+	bash -c "    X11Forwarding no" >> /etc/ssh/sshd_config" <<EOF && \
+	bash -c "    AllowTcpForwarding no" >> /etc/ssh/sshd_config" <<EOF
 
+# Restart ssh
 RUN /etc/init.d/ssh restart
-
-
-
-
-
-
-
-
-
 
 # Add startup 
 ADD /CannyOS/startup.sh /CannyOS/startup.sh
 RUN chmod +x /CannyOS/startup.sh
-
 
 # Define mountable directories.
 VOLUME ["/data"]
