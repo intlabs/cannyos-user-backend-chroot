@@ -49,7 +49,7 @@ echo ""
 
 # Make shared directory on host
 sudo mkdir -p "/CannyOS/build/cannyos-user-backend-chroot"
-# Ensure that there it is clear
+# Ensure that it is clear
 sudo rm -r -f "/CannyOS/build/cannyos-user-backend-chroot/*"
 
 # Remove any old containers
