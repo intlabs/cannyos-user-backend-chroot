@@ -42,8 +42,8 @@ RUN chown root:root /home/jail
 RUN chmod go-w /home/jail
 
 # Get script to pull in binary dependancies for required exectuables within chroot
-RUN wget --output-document=l2chroot.sh http://www.cyberciti.biz/files/lighttpd/l2chroot.txt && \
-	chmod +x l2chroot.sh
+ADD /CannyOS/Backend/chroot.sh /CannyOS/Backend/chroot.sh
+RUN chmod +x /CannyOS/Backend/chroot.sh
 
 #Copy the binaries we want our chroot user to have
 #First the binaries
