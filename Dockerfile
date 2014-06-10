@@ -45,6 +45,8 @@ RUN chmod go-w /home/jail
 ADD /CannyOS/Backend/chroot.sh /CannyOS/Backend/chroot.sh
 RUN chmod +x /CannyOS/Backend/chroot.sh
 
+RUN mknod -m 666 /home/jail/dev/null c 1 3
+
 #Copy the binaries we want our chroot user to have
 #First the binaries
 RUN cd /home/jail/bin && \
