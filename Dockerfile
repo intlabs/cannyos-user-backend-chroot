@@ -78,10 +78,10 @@ RUN groupadd jail && \
 	addgroup username jail
 
 # Update ssh
-RUN bash -c "Match Group jail" >> /etc/ssh/sshd_config" <<EOF && \
-	bash -c "    ChrootDirectory /home/jail" >> /etc/ssh/sshd_config" <<EOF && \
-	bash -c "    X11Forwarding no" >> /etc/ssh/sshd_config" <<EOF && \
-	bash -c "    AllowTcpForwarding no" >> /etc/ssh/sshd_config" <<EOF
+RUN printf "\nMatch Group jail\n" >> /etc/ssh/sshd_config && \
+	printf "    ChrootDirectory /home/jail\n" >> /etc/ssh/sshd_config && \
+	printf "    X11Forwarding no\n" >> /etc/ssh/sshd_config && \
+	printf "    AllowTcpForwarding no\n" >> /etc/ssh/sshd_config
 
 # Restart ssh
 RUN /etc/init.d/ssh restart
