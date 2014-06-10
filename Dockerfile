@@ -54,14 +54,16 @@ RUN cd /home/jail/bin && \
 	cp /bin/ls . && \
 	cp /bin/cp . && \
 	cp /bin/mv . && \
-	cp /bin/mkdir .
- 
+	cp /bin/mkdir . && \
+ 	cp /usr/bin/ssh .
+
 #Now our l2chroot script to bring over dependencies
 RUN /CannyOS/Backend/chroot.sh /bin/bash && \
 	/CannyOS/Backend/chroot.sh /bin/ls && \
 	/CannyOS/Backend/chroot.sh /bin/cp && \
 	/CannyOS/Backend/chroot.sh /bin/mv && \
-	/CannyOS/Backend/chroot.sh /bin/mkdir
+	/CannyOS/Backend/chroot.sh /bin/mkdir && \
+	/CannyOS/Backend/chroot.sh /usr/bin/ssh
 
 # clear command requires terminal definitions.
 RUN cd /home/jail/usr/bin && \
