@@ -72,13 +72,6 @@ RUN cd /home/jail/usr/bin && \
 RUN cd /home/jail/lib && \
 	cp -r /lib/terminfo .
 
-#Provide acccess to null and random within chroot.
-RUN mknod /home/jail/dev/null c 1 3
-RUN mknod /home/jail/dev/random c 1 8
-RUN chmod 666 /home/jail/dev/null
-RUN chmod 666 /home/jail/dev/random
-
-
 # Create user and jail group
 RUN groupadd jail && \
 	adduser --disabled-password --gecos "" --home /home/jail/home/username username && \
