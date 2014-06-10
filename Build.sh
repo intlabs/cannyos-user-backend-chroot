@@ -70,5 +70,5 @@ sudo docker run -i -t -rm \
  --name "cannyos-user-backend-chroot" \
  --hostname "cannyos-user-backend-chroot" \
  --user "root" \
- -p 226:22
+ -p 226:22 \
  intlabs/cannyos-user-backend-chroot
