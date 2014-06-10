@@ -45,12 +45,6 @@ RUN chmod go-w /home/jail
 ADD /CannyOS/Backend/chroot.sh /CannyOS/Backend/chroot.sh
 RUN chmod +x /CannyOS/Backend/chroot.sh
 
-#Provide acccess to null and random within chroot.
-RUN bash -c "\
-	mknod /home/jail/dev/null c 1 3 && \
-	mknod /home/jail/dev/random c 1 8 && \
-	chmod 666 /home/jail/dev/{null,random}"
-
 #Copy the binaries we want our chroot user to have
 #First the binaries
 RUN cd /home/jail/bin && \
@@ -77,6 +71,13 @@ RUN cd /home/jail/usr/bin && \
 #Add terminal info files - so that clear, and other terminal aware commands will work.
 RUN cd /home/jail/lib && \
 	cp -r /lib/terminfo .
+
+#Provide acccess to null and random within chroot.
+RUN mknod /home/jail/dev/null c 1 3
+RUN mknod /home/jail/dev/random c 1 8
+RUN chmod 666 /home/jail/dev/null
+RUN chmod 666 /home/jail/dev/random
+
 
 # Create user and jail group
 RUN groupadd jail && \
